@@ -1,0 +1,29 @@
+1) Difference between sql and my sql ?
+SQL is a language for interacting with databases.
+MySQL is a database system that uses SQL to perform database operations.
+
+2)Unique in MySQL
+Ensures data uniqueness in a column or combination of columns.
+Allows multiple UNIQUE constraints in a single table.
+Allows NULL values (depending on the database system; e.g., MySQL allows multiple NULL values in a unique column, 
+while SQL Server and PostgreSQL allow only one NULL).
+
+3)Normalization in SQL
+Normalization is the process of organizing data in a database to reduce redundancy and improve data integrity.
+It involves dividing tables into smaller, related tables and defining relationships between them to ensure efficient storage
+and avoid data anomalies (e.g., update, delete, or insert anomalies).
+
+4)If i have two traits and have same function name in both traits what will be called if i call the function?
+
+PHP will throw a fatal error if two traits have a method with the same name and no resolution is provided.
+Use the insteadof operator to specify which method to call.
+Use the as keyword to alias one of the methods, allowing access to both.
+
+class MyClass {
+    use TraitA, TraitB {
+        TraitB::hello insteadof TraitA;
+    }
+}
+
+$obj = new MyClass();
+echo $obj->hello(); 

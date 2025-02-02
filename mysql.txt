@@ -27,3 +27,67 @@ class MyClass {
 
 $obj = new MyClass();
 echo $obj->hello(); 
+
+
+//SDE 2 Shadi.com
+
+let arrObj = [
+  {id : 3, name : 'vinay', },
+  {id : 4, name : 'suresh', },
+  {id : 1, name : 'rahul', },
+  {id : 2, name : 'ashish', },
+]
+
+//Using sort method
+// arrObj.sort((a,b) => a.id - b.id)
+
+//Without sort method 
+// function bubbleSort(arr){
+//     let n = arr.length;
+//     for(let i=0; i < n -1 ; i++){
+//         for(let j = 0; j < n - 1 -i; j++){
+//             if(arr[j].id > arr[j+1].id){
+//                 let temp = arr[j];
+//                 arr[j+1] = arr[j];
+//                 arr[j] = temp;
+//             }
+//         }
+//     }
+// }
+
+// bubbleSort(arrObj);
+
+// function bubbleSortName(arr){
+//     let n = arr.length;
+//     for(let i=0; i < n -1 ; i++){
+//         for(let j = 0; j < n - 1 -i; j++){
+//             // console.log(arr[j].name.localeCompare(arr[j+1]), 
+//             // arr[j].name ,arr[j+1].name);
+//             if(arr[j].name.localeCompare(arr[j+1].name) > 0){
+//                 let temp = arr[j];
+//                 arr[j+1] = arr[j];
+//                 arr[j] = temp;
+//             }
+//         }
+//     }
+// }
+// bubbleSortName(arrObj);
+// console.log(arrObj);
+
+// function bubbleSortByName(arr) {
+//   let n = arr.length;
+//   for (let i = 0; i < n - 1; i++) {
+//     for (let j = 0; j < n - 1 - i; j++) {
+//       if (arr[j].name.localeCompare(arr[j + 1].name) > 0) { 
+//         // Swap elements if they are in the wrong order
+//         let temp = arr[j];
+//         arr[j] = arr[j + 1];
+//         arr[j + 1] = temp;
+//       }
+//     }
+//   }
+// }
+
+// bubbleSortByName(arrObj);
+arrObj.sort((a,b) => a.name - b.name)
+console.log(arrObj);

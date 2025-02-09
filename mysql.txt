@@ -90,4 +90,4 @@ let arrObj = [
 
 // bubbleSortByName(arrObj);
 arrObj.sort((a,b) => a.name - b.name)
-console.log(arrObj);
+console.log(arrObj);  

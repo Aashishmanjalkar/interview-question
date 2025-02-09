@@ -13,3 +13,21 @@ for(let i = 0;i < arr.length -1;i++){
    }
 }
 console.log(arr);
+
+
+console.log("first log");
+var a = "a";
+let b = "b";
+const c = "c";
+function test(){
+    console.log(a);
+    console.log(b);
+    console.log(c);
+    console.log("First log inside function");
+    a = "a changed"
+    console.log(a)
+}
+
+test()
+
+console.log("last log")

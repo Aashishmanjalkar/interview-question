@@ -1,0 +1,133 @@
+🔥 1. What is JWT and how does it work in Laravel?
+Answer:
+JWT (JSON Web Token) is a stateless authentication method where the server generates a signed token after login,
+and the client includes this token in future requests. In Laravel, we often use packages like tymon/jwt-auth to implement
+JWT-based authentication.
+
+
+🛠 2. How do you implement JWT authentication in Laravel?
+Answer:
+Install the tymon/jwt-auth package.
+Publish the config file:
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+Generate secret key:
+php artisan jwt:secret
+Update auth.php to use the jwt guard.
+Create login and register routes that return a token on success.
+
+
+🧪 3. What does a typical login flow with JWT look like in Laravel?
+Answer:
+User submits credentials via login API.
+Server verifies credentials and returns a JWT.
+Client stores this token (localStorage or cookies).
+On each request, client sends the token in the Authorization: Bearer header.
+Laravel middleware (jwt.auth) checks and validates the token.
+
+
+🔁 4. How do you refresh a JWT token in Laravel?
+Answer:
+JWTs have expiration times. To refresh:
+php
+
+
+$token = JWTAuth::getToken();
+$refreshed = JWTAuth::refresh($token);
+This gives a new token without needing to re-login.
+
+
+🛡️ 5. How do you protect routes using JWT in Laravel?
+Answer: You can use the middleware provided by the package:
+php
+
+
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::get('/user-profile', [UserController::class, 'profile']);
+});
+Or set it in api.php as default if you're using JWT for all APIs.
+
+
+🔐 6. What is the difference between JWT and Laravel's default session-based auth?
+Session-based	JWT-based
+Stores session on server	Stateless (no server-side session)
+CSRF protection needed	Not needed (token-based)
+Good for web apps	Better for APIs/mobile
+
+
+💬 7. Where do you store JWT tokens on the client side?
+Answer:
+For SPAs: localStorage (simple) or HttpOnly cookies (more secure against XSS).
+HttpOnly cookies are safer but require additional setup.
+
+
+⚠️ 8. How do you handle token invalidation or logout in JWT?
+Answer: JWT is stateless — to “logout,” you can:
+Let it expire naturally.
+Maintain a token blacklist (more complex).
+Or call the logout endpoint:
+php
+
+
+JWTAuth::invalidate($token);
+
+
+
+Great! Let’s break down how Laravel authenticates a JWT token — especially when using the popular package: tymon/jwt-auth.
+
+🧠 Overview:
+Laravel authenticates a JWT by validating the token sent with the request and then resolving the corresponding user. This is done using middleware, guards, and token decoding.
+
+🛠️ Step-by-Step: How Laravel Authenticates a JWT Token
+1. Token is sent in the request
+Usually in the Authorization header:
+
+Authorization: Bearer <token>
+
+2. jwt.auth Middleware kicks in
+In your routes/api.php, if a route is protected:
+Route::middleware(['jwt.auth'])->get('/profile', [UserController::class, 'profile']);
+The middleware intercepts the request and tries to:
+Extract the token
+Validate it
+Decode the payload
+Authenticate the user
+
+3. JWTAuth::parseToken()->authenticate() is called
+Internally, the middleware calls:
+$user = JWTAuth::parseToken()->authenticate();
+Here's what happens:
+
+Step	Description
+✅ Parse	Reads the token from the Authorization header
+🔍 Validate	Verifies the signature and expiry (using the secret key in JWT_SECRET)
+📦 Decode	Extracts user data from payload (usually sub = user ID)
+👤 Load	Finds the user from DB via User::find($payload->sub)
+If successful, the user is authenticated and available via auth()->user().
+
+4. Guard is set in config/auth.php
+Make sure your api guard uses the jwt driver:
+'guards' => [
+    'api' => [
+        'driver' => 'jwt',
+        'provider' => 'users',
+    ],
+],
+So that auth('api')->user() or auth()->user() gives you the user from token.
+
+✅ Summary Flow
+Client sends request with JWT → 
+JWT middleware extracts & validates token →
+JWT decoded → user ID pulled from payload →
+User model fetched from DB →
+Request proceeds with authenticated user
+🔐 Bonus: Behind the scenes
+The JWT signature is validated using the JWT_SECRET in your .env:
+
+JWT_SECRET=your_secret_key
+It ensures the token wasn’t tampered with.
+
+I am creating an api that can be used by third party what necessary step should i take
+
+"To make my API secure and scalable for third-party use, I’d implement token-based auth (likely JWT or Sanctum), 
+rate limiting, proper versioning, CORS,
+ logging, and robust documentation. I’d also follow RESTful principles and test edge cases thoroughly."
